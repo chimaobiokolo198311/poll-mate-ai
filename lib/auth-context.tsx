@@ -1,7 +1,9 @@
+'use client';
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/lib/supabaseClient';
+import { toast } from 'sonner';
 
 interface AuthContextType {
   user: User | null;
@@ -26,7 +28,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
 
   useEffect(() => {
     // Set up auth state listener FIRST
@@ -64,23 +65,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (error) {
-        toast({
-          variant: "destructive",
-          title: "Sign up failed",
+        toast.error("Sign up failed", {
           description: error.message,
         });
       } else {
-        toast({
-          title: "Check your email",
+        toast.success("Check your email", {
           description: "Please check your email for a confirmation link.",
         });
       }
 
       return { error };
     } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Sign up failed",
+      toast.error("Sign up failed", {
         description: error.message || "An unexpected error occurred",
       });
       return { error };
@@ -95,18 +91,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (error) {
-        toast({
-          variant: "destructive",
-          title: "Sign in failed",
+        toast.error("Sign in failed", {
           description: error.message,
         });
       }
 
       return { error };
     } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Sign in failed",
+      toast.error("Sign in failed", {
         description: error.message || "An unexpected error occurred",
       });
       return { error };
@@ -117,16 +109,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const { error } = await supabase.auth.signOut();
       if (error) {
-        toast({
-          variant: "destructive",
-          title: "Sign out failed",
+        toast.error("Sign out failed", {
           description: error.message,
         });
       }
     } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Sign out failed",
+      toast.error("Sign out failed", {
         description: error.message || "An unexpected error occurred",
       });
     }

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -5,7 +7,8 @@ import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/lib/auth-context';
+import Link from 'next/link';
 
 const signUpSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -19,11 +22,7 @@ const signUpSchema = z.object({
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
-interface SignUpFormProps {
-  onToggleMode: () => void;
-}
-
-export const SignUpForm: React.FC<SignUpFormProps> = ({ onToggleMode }) => {
+export const RegisterForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { signUp } = useAuth();
 
@@ -143,13 +142,12 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onToggleMode }) => {
       <div className="text-center">
         <p className="text-sm text-muted-foreground">
           Already have an account?{' '}
-          <button
-            type="button"
-            onClick={onToggleMode}
+          <Link
+            href="/auth/login"
             className="text-primary hover:underline font-medium"
           >
             Sign in
-          </button>
+          </Link>
         </p>
       </div>
     </div>
