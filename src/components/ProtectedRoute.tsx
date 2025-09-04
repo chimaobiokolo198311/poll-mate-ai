@@ -1,8 +1,6 @@
-'use client';
-
 import React from 'react';
-import { redirect } from 'next/navigation';
-import { useAuth } from '@/lib/auth-context';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../lib/auth-context';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -23,8 +21,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
   if (!user) {
-    redirect('/auth/login');
+    return <Navigate to="/auth" replace />;
   }
 
   return <>{children}</>;
 };
+
+export default ProtectedRoute;

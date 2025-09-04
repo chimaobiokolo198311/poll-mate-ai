@@ -1,14 +1,11 @@
-'use client';
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { useAuth } from '@/lib/auth-context';
-import Link from 'next/link';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../components/ui/form';
+import { useAuth } from '../lib/auth-context';
 
 const signUpSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -47,11 +44,6 @@ export const RegisterForm: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-foreground">Create account</h1>
-        <p className="text-muted-foreground">Sign up to get started</p>
-      </div>
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -138,18 +130,8 @@ export const RegisterForm: React.FC = () => {
           </Button>
         </form>
       </Form>
-
-      <div className="text-center">
-        <p className="text-sm text-muted-foreground">
-          Already have an account?{' '}
-          <Link
-            href="/auth/login"
-            className="text-primary hover:underline font-medium"
-          >
-            Sign in
-          </Link>
-        </p>
-      </div>
     </div>
   );
 };
+
+export default RegisterForm;
