@@ -1,41 +1,44 @@
-import React from 'react'
-import { Navigate } from 'react-router-dom'
-import { useAuth } from '../hooks/useAuth'
-import LoginForm from '../components/LoginForm'
-import RegisterForm from '../components/RegisterForm'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
+import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { Card, CardContent } from '@/components/ui/card';
+import { LoginForm } from '@/components/auth/LoginForm';
+import { SignUpForm } from '@/components/auth/SignUpForm';
+import { useAuth } from '@/hooks/useAuth';
 
-export default function Auth() {
-  const { user } = useAuth()
-  
-  // Redirect if already authenticated
-  if (user) {
-    return <Navigate to="/" replace />
+const Auth: React.FC = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const { user, loading } = useAuth();
+
+  // Redirect authenticated users to home
+  if (!loading && user) {
+    return <Navigate to="/" replace />;
+  }
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Polling App</CardTitle>
-          <CardDescription>Sign in to your account or create a new one</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="login">Login</TabsTrigger>
-              <TabsTrigger value="register">Register</TabsTrigger>
-            </TabsList>
-            <TabsContent value="login">
-              <LoginForm />
-            </TabsContent>
-            <TabsContent value="register">
-              <RegisterForm />
-            </TabsContent>
-          </Tabs>
+        <CardContent className="p-6">
+          {isLogin ? (
+            <LoginForm onToggleMode={() => setIsLogin(false)} />
+          ) : (
+            <SignUpForm onToggleMode={() => setIsLogin(true)} />
+          )}
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
+
+export default Auth;

@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
-import { useAuth } from '../hooks/useAuth';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useAuth } from '@/hooks/useAuth';
 
 const signUpSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -19,7 +19,11 @@ const signUpSchema = z.object({
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
-const RegisterForm: React.FC = () => {
+interface SignUpFormProps {
+  onToggleMode: () => void;
+}
+
+export const SignUpForm: React.FC<SignUpFormProps> = ({ onToggleMode }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { signUp } = useAuth();
 
@@ -44,6 +48,11 @@ const RegisterForm: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      <div className="text-center">
+        <h1 className="text-2xl font-bold text-foreground">Create account</h1>
+        <p className="text-muted-foreground">Sign up to get started</p>
+      </div>
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -130,8 +139,19 @@ const RegisterForm: React.FC = () => {
           </Button>
         </form>
       </Form>
+
+      <div className="text-center">
+        <p className="text-sm text-muted-foreground">
+          Already have an account?{' '}
+          <button
+            type="button"
+            onClick={onToggleMode}
+            className="text-primary hover:underline font-medium"
+          >
+            Sign in
+          </button>
+        </p>
+      </div>
     </div>
   );
 };
-
-export default RegisterForm;
