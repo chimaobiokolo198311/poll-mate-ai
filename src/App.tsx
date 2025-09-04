@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { AuthProvider } from './lib/auth-context'
+import { AuthProvider } from './hooks/useAuth'
 import { Toaster } from './components/ui/sonner'
 import ProtectedRoute from './components/ProtectedRoute'
 import Auth from './pages/Auth'

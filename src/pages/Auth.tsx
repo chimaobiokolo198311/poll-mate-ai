@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '../lib/auth-context'
+import { useAuth } from '../hooks/useAuth'
 import LoginForm from '../components/LoginForm'
 import RegisterForm from '../components/RegisterForm'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
@@ -28,10 +28,10 @@ export default function Auth() {
               <TabsTrigger value="register">Register</TabsTrigger>
             </TabsList>
             <TabsContent value="login">
-          <LoginForm />
+              <LoginForm />
             </TabsContent>
             <TabsContent value="register">
-          <RegisterForm />
+              <RegisterForm />
             </TabsContent>
           </Tabs>
         </CardContent>

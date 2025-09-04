@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../components/ui/form';
-import { useAuth } from '../lib/auth-context';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
+import { useAuth } from '../hooks/useAuth';
 
 const signUpSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -19,7 +19,7 @@ const signUpSchema = z.object({
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
-export const RegisterForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { signUp } = useAuth();
 
